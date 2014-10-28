@@ -1,0 +1,334 @@
+@import "compass/css3";
+@import 'compass/css3/filter';
+@import "compass/css3/user-interface";
+
+$color1:#313234; // black
+
+#comments {
+	float: left;
+	width: 100%;
+	border: 1px solid #eeeeee;
+	
+	&.full {
+		background: #f7f7f7;
+		
+		.comment-container {
+			background: #fff;
+		}
+		#respond,
+		ol.commentlist {
+			padding: 30px 0;
+		}
+		#commentsheader a {
+			border-right: 1px solid #eee;
+		}
+		#commentsheader span {
+			padding-left: 0;
+		}
+	}
+	#add_review_button,
+	#submit {
+		width: 100%;
+	}
+	.styled_header.style2 h6 {
+		font-size: 24px;
+		line-height: 24px;
+	}
+	#commentsheader {
+		display: block;
+		background: #fff;
+		border-bottom: 1px solid #eeeeee;
+		@media only screen and (max-width: $break-small) {
+			text-align: center;
+		}
+		a {
+			display: block;
+			padding: 0 30px;
+			line-height: 78px;
+			float: right;
+			font-weight: 600;
+			font-size: 14px;
+			color: $color1;
+			text-transform: uppercase;
+			border-left: 1px solid #eee;
+			
+			@media only screen and (max-width: $break-small) {
+				border-left: 0;
+				border-top: 1px solid #eee;
+				text-align: center;
+				width: 100%;
+			}
+		}
+		
+		span {
+			display: block;
+			line-height: 78px;
+			font-size: 22px;
+			font-weight: 300;
+			color: $color1;
+			padding-left: 30px;
+			direction: ltr;
+			strong {
+				font-weight: 600;	
+			}
+			@media only screen and (max-width: $break-small) {
+				padding-left: 0;	
+			}
+		}
+	}
+	.headline {
+		height: 30px;
+		text-align: left;
+		margin-bottom: 10px;
+		h2 {
+			padding: 0;
+		}
+		a {
+			text-transform: uppercase;
+			float: right;
+			margin-top: 2px;
+			font-size: 12px;
+		}
+	}
+	#reply-title {
+		
+	}
+	.comment-notes {
+		display: none;
+	}
+	.nocomments {
+		margin: 0;
+		padding: 30px;
+	}
+	ol.commentlist {
+		list-style: none;
+		width: 100%;
+		float: left;
+		margin: 0;
+		padding: 30px;
+		display: block;
+		float: left;
+		width: 100%;
+		@media only screen and (max-width: $break-small) {
+			padding: 30px 15px;
+		}
+		li {
+			width: 100%;
+			float: left;
+			padding-bottom: 20px;
+			
+			li {
+				&:last-child {
+					padding-bottom:0;
+				}
+			}
+			
+			#respond {
+				float: left;
+				width: 100%;
+				margin-top: 20px;
+				display: block !important;
+				#reply-title {
+					display: block;
+				}
+			}
+		}
+		&>li {
+			&:first-child {
+				.comment-inner {
+					margin-top:0;
+				}
+			}
+			&:last-child {
+				border: 0;
+			}
+		}
+		
+		.vcard {
+			float: left;
+			width: 70px;
+			margin: 0 30px 0 0;
+			padding: 0;
+			border: 0;
+			.avatar {
+				float: left;
+				width: 70px;
+				
+				@include border-radius(35px);
+			}
+		}
+		.commentmeta {
+			line-height: 1;
+			strong {
+				display: block;
+				color: #222;
+				font-weight: 800;
+				line-height: 1;
+				font-size: 14px;
+				margin-bottom: 10px;
+				
+				a {
+					color: #222;
+				}
+			}
+			
+		}
+		.authorname {
+			display: block;
+			font-size: 12px;
+			text-transform: uppercase;
+			font-weight: 300;
+			margin-bottom: 15px;
+			color: #a1a1a1;
+		}
+		.awaiting_moderation {
+			display: block;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			color: #fff;
+			font-weight: bold;
+			text-transform: uppercase;
+			font-size: 8px;
+			padding: 2px 4px;
+			font-style: normal;
+		}
+		.comment-inner {
+			width: 100%;
+			float: left;
+			position: relative;
+		}
+		.comment-reply-link {
+			background: $color2;
+			display: inline-block;
+			color: #fff;
+			font-size: 12px;
+			padding: 6px 7px 5px;
+			margin: 0;
+			line-height: 1;
+			text-transform: uppercase;
+		}
+		.comment-container{
+			width: auto;
+			margin-left: 100px;
+			
+			.star-rating {
+				float: right;
+				
+				@media only screen and (max-width: $break-small) {
+					float: left;
+					width: 100%;
+					margin-bottom: 10px;
+				}
+			}
+		}
+		.comment-text{
+			width: auto;
+			position: relative;
+			color: #606060;
+			font-size: 13px;
+		}
+		.children{
+			display: block;
+			float: left;
+			width: 100%;
+			margin: 20px 0 0;
+			padding-left: 100px;
+			list-style: none;
+			position: relative;
+			
+			.vcard {
+				float: left;
+				width: 52px;
+				margin-right: 20px;
+				.avatar {
+					float: left;
+					width: 52px;
+					
+					@include border-radius(36px);
+				}
+			}
+			.comment-container {
+				margin-left: 72px;
+			}
+			&>li {
+				
+				&:first-child {
+					&>.comment-inner {
+						margin-top:0;
+					}
+				}
+			}
+			.children {
+				padding-left: 72px;
+			}
+		}
+	}
+	#respond {
+		padding: 30px;
+		background: #f7f7f7;
+		display: none;
+		
+		.form-submit {
+			margin: 0;
+		}
+	}
+}
+
+#reviews {
+	padding-bottom: 40px;
+	
+	#comments {
+		border: 0;
+	}
+	#respond {
+		background: #fff;
+	}
+	#comments ol.commentlist li {
+		margin-bottom: 30px;
+		padding-bottom: 10px;
+		border-bottom: 1px dotted #eee;
+	}
+}
+#comments_popup_link {
+	display: block;
+	padding: 110px 0 0 0;
+	width: 130px;
+	text-align: center;
+	position: relative;
+	margin: 0 auto;
+	clear: left;
+	font-weight: 800;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: $color2;
+	@extend .raleway;
+	&:after {
+		font-family: "fuelthemes";
+		content: '\e169';
+		font-size: 48px;
+		width: 96px;
+		height: 96px;
+		text-align: center;
+		line-height: 98px;
+		text-indent: -2px;
+		color: #fff;
+		background: $color2;
+		@include border-radius(48px);
+		position: absolute;
+		top: 0;
+		left: 50%;
+		margin-left: -48px;
+		
+	}
+}
+.comment-reply-title {
+	font-size: 24px;
+	margin: 0 0 20px;
+	font-weight: 300;
+	small {
+		text-transform: uppercase;
+		font-size: 12px;
+		margin-left: 10px;	
+	}
+}

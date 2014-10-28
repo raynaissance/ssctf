@@ -1,0 +1,13 @@
+<% if(!req.session.User) { %>
+<% include ../commons/header %>
+<% } else { %>
+<% if(req.session.User.type == 1){ %>
+<% include admin/header %>
+<% } %>
+<% if(req.session.User.type == 2){ %>
+<% include gameServer/header %>
+<% } %>
+<% if(req.session.User.type == 5){ %>
+<% include player/header %>
+<% } %>
+<% } %>

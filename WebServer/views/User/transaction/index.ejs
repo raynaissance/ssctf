@@ -1,0 +1,13 @@
+<% include ../header %>
+<!--TODO Switch the header based on user type-->
+<div class="container">
+    <h1>Transaction list</h1>
+    <div>
+        <% _.each(transactions, function(transaction) { %>
+        <div>
+            <%= JSON.stringify(transaction) %>
+        </div>
+        <% }); %>
+    </div>
+</div>
+<% include ../../commons/footer %>

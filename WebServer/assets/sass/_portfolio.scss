@@ -1,0 +1,244 @@
+@import "compass/css3";
+@import 'compass/css3/filter';
+@import "compass/css3/user-interface";
+
+$break-small: 767px;
+$break-medium: 940px;
+$break-large: 1290px;
+$transition: cubic-bezier(0.75, 0, 0.175, 1);
+$color1: #222; // black
+
+.cf {
+	&:before,
+	&:after {
+	    content: " ";
+	    display: table;
+	}
+	&:after {
+	    clear: both;
+	}
+}
+/* Filters */
+.filters {
+	list-style: none;
+	margin-bottom: 35px;
+	text-align: center;
+	
+	li {
+		display: inline-block;
+		
+		a {
+			display: block;
+			color: #a4a7ab;
+			font-size: 12px;
+			padding: 10px 16px;
+			text-transform: uppercase;
+			line-height: 1;
+			font-weight: 600;
+			border: 2px solid transparent;
+			@extend .raleway;
+			@include border-radius(3px);
+			&:hover {
+				color: #313234;
+			}
+			&.active {
+				
+				color: $color2;
+				border-color: $color2;
+			}
+		}
+	}
+}
+
+
+#portfolioselect {
+	position: relative;
+	float: left;
+	margin-bottom: 30px;
+	width: 100%;
+	
+	#sortportfolio {
+		display: block;
+		float: left;
+		line-height: 36px;
+		font-size: 12px;
+		width: 100%;
+		height: 36px;
+		padding: 0 34px 0 12px;
+		border: 1px solid #dcdcdc;
+		text-transform: uppercase;
+		color: #737373;
+		@include box-sizing(border-box);
+		@include single-transition(all, 0.4s, ease-in-out);
+		
+		&:after {
+			content: '';
+			display: block;
+			position: absolute;
+			top: 15px;
+			right: 14px;
+			width: 0px;
+			height: 0px;
+			border-style: solid;
+			border-width: 6px 5px 0 5px;
+			border-color: #bababa transparent transparent transparent;
+		}
+	}
+	
+	ul {
+		list-style: none;
+		margin: 0;
+		display: none;
+		float: left;
+		width: 100%;
+		border-left: 1px solid #dcdcdc;
+		border-right: 1px solid #dcdcdc;
+		border-bottom: 1px solid #dcdcdc;
+		li {
+			a {
+				display: block;
+				width: 100%;
+				float: left;
+				font-size: 11px;
+				font-weight: 800;
+				text-transform: uppercase;
+				color: #878787;
+				padding: 10px 12px;
+				
+				&:hover,
+				&.active {
+					color: $color1;
+				}
+			}
+		}
+	}
+}
+.portfolio-container {
+	margin: 40px 0;
+	
+	@extend .endcolumn;
+}
+/* Single */
+.portfolio_attributes {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	
+	li {
+		border-bottom: 1px solid #eee;
+		padding-bottom: 15px;
+		margin-bottom: 15px;
+		
+		&:last-child {
+			border-bottom: 0;	
+		}
+		label {
+			float: left;
+			width: 115px;
+			font-size: 14px;
+			color: $color1;
+			font-weight: 600 !important;
+		}
+		p {
+			display: block;
+			padding-left: 115px;
+			font-size: 14px;
+			font-weight: 300;
+			color: $color1;
+			margin: 0;
+		}
+	}
+}
+/* Portfolio Header */
+.portfolio-header {
+	text-align: center;
+	padding: 65px 0;
+	@include background-size(cover);
+	
+	@media only screen and (max-width: $break-small) {
+		padding: 25px 0;	
+	}
+	h1 {
+		font-weight: 800;
+		font-size: 60px;
+		color: #fff;
+		margin: 0;
+		
+		@media only screen and (max-width: $break-small) {
+			font-size: 30px;
+		}
+	}
+	h3 {
+		font-weight: 500;
+		font-size: 24px;
+		color: #fff;
+		margin: 15px 0 0 0;
+		
+		@media only screen and (max-width: $break-small) {
+			font-size: 18px;
+		}
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 20px 0 0 0;
+		li {
+			font-size: 14px;
+			color: #fff;
+			display: inline-block;
+			margin: 0 10px;
+			
+			strong {
+				font-weight: 600;	
+			}
+			span {
+				font-weight: 300;	
+			}
+		}	
+	}
+}
+.portfolio_nav {
+	display: block;
+	text-align: center;
+	margin-bottom: 20px;
+	a {
+		display: inline-block;
+		width: 62px;
+		height: 62px;
+		font-size: 16px;
+		line-height: 62px;
+		text-align: center;
+		color: #fff;
+		margin: 0 2px;
+		border: 2px solid #fff;
+		@include border-radius(31px);
+		@include opacity(0.6);
+		will-change: opacity;
+		&:hover {
+			color: #fff;
+			@include opacity(1);
+		}
+		@media only screen and (max-width: $break-small) {
+			width: 44px;
+			height: 44px;
+			font-size: 14px;
+			line-height: 44px;
+		}
+		
+	}
+	.post-title & {
+		a {
+			color: #fff;
+			width: 44px;
+			height: 44px;
+			line-height: 44px;
+		}
+		
+		text-align: left;
+		margin: 0;
+	}
+}
+/* Portfolio Layout1 */
+.row.portfolio-large {
+	max-width: 82em;
+}

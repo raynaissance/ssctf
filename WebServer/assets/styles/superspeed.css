@@ -1,0 +1,81 @@
+body{
+    /*background: url("http://fc01.deviantart.net/fs51/i/2009/307/7/9/Grungy_Teal_Tileable_Patterns_by_WebTreatsETC.jpg") no-repeat fixed;*/
+    /*-webkit-background-size: cover;*/
+    /*background-size: cover;*/
+}
+.footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+.logolink {
+    text-align: left;
+}
+
+.logolink-block {
+    text-align: left;
+}
+
+.left-col {
+    text-align: right;
+}
+.right-col {
+    border-left: 1px solid #f0f0f0;
+    padding-left: 30px;
+}
+
+.accountIcon {
+   width: 225px;
+   height: 140px;
+   display: inline-block;
+}
+.navbar {
+    margin-bottom: 0px;
+}
+.container .text-muted {
+    margin: 20px 0;
+}
+
+.section {
+    display: inline-block;
+    width: 100%;
+}
+
+.sTop {
+    height: 300px;
+    display: table;
+}
+.sTop .inner {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.s1 {
+	background:#184764;
+	color:#fff;
+    min-height: 500px;
+}
+
+.s2 {
+	background: #313131;
+    min-height: 400px;
+    border-bottom: 1px solid #eeeeee;
+}
+.s2 a {
+	color: #fff;
+}
+
+.s3 {
+	background: #1b83b3;
+    min-height: 400px;
+}
+
+.s4 {
+	background: #5aa3c4;
+    min-height: 300px;
+}

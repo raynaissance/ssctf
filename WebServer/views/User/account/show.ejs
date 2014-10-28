@@ -1,0 +1,8 @@
+<% include ../header %>
+<div class="container">
+    <a href="/user/account/new"><div class="accountIcon"> <h2 class="text-muted">+</h2> </div></a>
+    <% _.forEach(accounts, function(account){%>
+    <a href="/user/account/show/<%= account.id %>"><img src="/images/accountTypes/<%= account.accountType.icon %>" class="accountIcon"> </a>
+    <% }); %>
+</div>
+<% include ../../commons/footer %>

@@ -1,0 +1,9 @@
+<form class="navbar-form navbar-left" role="login" method="post" action="/session/create">
+    <div class="form-group">
+        <input type="text" class="form-control" name="email" placeholder="Email" />
+        <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="on" />
+    </div>
+    <input type="hidden" name="_csrf" value="<%- _csrf %>" />
+    <button type="submit" class="btn btn-default">Login</button>
+    <a href="/user/new" class="btn btn-danger" style="margin-right: 15px;">Register</a>
+</form>
