@@ -1,0 +1,28 @@
+<% include header %>
+<!--TODO Switch the header based on user type-->
+<div class="container">
+    <h1>User list</h1>
+    <div role="main">
+        <% _.each(users, function(user) { %>
+        <div class="row">
+            <section class="twelve columns">
+                <div class="medium-6 small-9 columns">
+                    <%= user.name %>
+                </div>
+                <div class="medium-2 small-1 columns ">
+                    <a href="/user/show/<%= user.id %>" class="btn btn-success" >Show</a>
+                </div>
+                <div class="medium-2 small-1 columns ">
+                    <a href="/user/edit/<%= user.id %>" class="btn btn-warning" >Edit</a>
+                </div>
+                <div class="medium-2 small-1 columns ">
+                    <a href="/user/destroy/<%= user.id %>" class="btn btn-danger" >Delete</a>
+                </div>
+                </section>
+            </div>
+
+        <% }); %>
+        TODO: Pagination
+    </div>
+</div>
+<% include ../commons/footer %>

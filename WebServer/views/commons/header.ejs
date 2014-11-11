@@ -1,0 +1,174 @@
+<%
+if (typeof(menu) == "undefined")
+    menu = {
+        "Home": "/",
+        "About Us": "#aboutUs",
+        "SubMenu": {
+            "a": "b",
+            "c": "d",
+            "yol": {
+                "dl": "e",
+                "_link": "k"
+            },
+            "_link": ""
+        },
+        "_link": "/"
+    }
+
+function renderMobileMenu(m, className){
+%>
+<ul class="<%- className %>">
+    <% _.forEach(m, function(m1, index){
+        if (index == "_link") return;
+        var link = m1;
+            if(typeof(m1) == "object") {
+        link = m["_link"];
+    %>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children"><a
+                href="<%- link %>"><%- index %></a>
+        <% renderMobileMenu(m1, "sub-menu"); %>
+    </li>
+    <%
+    } else {
+    %>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                href="<%- m1 %>"><%- index %></a></li>
+    <%
+    }
+    }); %>
+</ul>
+<% }
+function renderSwingMenu(m, className){
+%>
+<ul class="<%- className %>">
+    <% _.forEach(m, function(m1, index){
+        if (index == "_link") return;
+        var link = m1;
+            if(typeof(m1) == "object") {
+        link = m["_link"];
+    %>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children"><a
+                href="<%- link %>"><%- index %></a>
+        <% renderMobileMenu(m1, "sub-menu"); %>
+    </li>
+    <%
+    } else {
+    %>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page subNavBtn extLink end"><a
+                href="<%- m1 %>"><%- index %></a></li>
+    <%
+    }
+    }); %>
+</ul>
+<% } %>
+
+<!--Mobile menu -->
+<section id="sidr-main" class="sidr left" style="display: none; left: 0px;">
+    <div class="sidr-inner">
+        <a href="#" id="sidr-close">Close</a>
+        <% renderMobileMenu(menu, "mobile-menu"); %>
+    </div>
+</section>
+
+
+<!--Swing menu-->
+<header class="header style1 left_logo tofixed swing fixed subMenu" data-offset="400"
+        data-stick-class="header--swing" data-unstick-class="header--unswing">
+    <div class="row " data-equal=">.columns">
+        <div class="small-7 large-4 columns logo" style="height: 67px;">
+            <a href="http://www.SuperSpeed.com" class="logolink">
+                <span class="logoimg-block">SuperSpeed</span>
+            </a>
+        </div>
+        <div class="small-5 large-8 columns menu-holder" style="height: 67px;">
+            <div class="show-for-large-up">
+                <nav id="nav">
+                    <% renderSwingMenu(menu, "sf-menu"); %>
+                </nav>
+
+            </div>
+            <div class="hide-for-large-up">
+                <a href="#mobile-toggle" class="mobile-toggle style1">
+                    <i class="icon-budicon-0"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!--Main menu-->
+<header class="header style1 left_logo tofixed swing" data-offset="400" data-stick-class="header--swing"
+        data-unstick-class="header--unswing">
+    <div class="row " data-equal=">.columns">
+        <div class="small-7 large-4 columns logo" style="height: 100px;">
+            <a href="/" class="logolink">
+                <!--<img src="/img/logo-light.png" class="logoimg" alt="SuperSpeed">-->
+                <span class="logoimg">SuperSpeed</span>
+            </a>
+        </div>
+        <div class="small-5 large-8 columns menu-holder" style="height: 100px;">
+            <div class="show-for-large-up">
+                <nav id="nav">
+                    <% renderSwingMenu(menu, "sf-menu"); %>
+                </nav>
+
+                <div id="quick_cart">
+                    <a id="mycartbtn" href="/cart" title="View your shopping cart">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                             x="0px" y="0px" width="40px" height="45px" viewBox="0 0 40 45"
+                             enable-background="new 0 0 40 45"
+                             xml:space="preserve">
+                            <g>
+                                <g>
+                                    <g>
+                                        <path class="path" d="M14.498,12.056c0-2.979,2.469-5.403,5.503-5.403s5.503,2.424,5.503,5.403v0.527h2.197v-0.527
+                                            c0-4.169-3.454-7.561-7.7-7.561s-7.7,3.391-7.7,7.561v0.527h2.197V12.056z M31.165,14.785H8.836
+                                            c-1.009,0-1.831,0.807-1.831,1.798v22.124c0,0.991,0.822,1.798,1.831,1.798h22.328c1.009,0,1.83-0.807,1.83-1.798V16.583
+                                            C32.995,15.591,32.173,14.785,31.165,14.785z M31.267,38.786H8.734V16.5h22.533V38.786z"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        <span class="float_count">0</span>
+                    </a>
+                    <div class="cart_holder">
+                        <ul class="cart_details">
+                            <p class="empty">Just walk through a VIP Line to get your cart details!</p></ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="hide-for-large-up">
+                <div id="quick_cart">
+                    <a id="mycartbtn" href="http://skillful.fuelthemes.net/cart/" title="View your shopping cart">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="45px"
+                             viewBox="0 0 40 45" enable-background="new 0 0 40 45" xml:space="preserve">
+			<g>
+                <g>
+                    <g>
+                        <path class="path" d="M14.498,12.056c0-2.979,2.469-5.403,5.503-5.403s5.503,2.424,5.503,5.403v0.527h2.197v-0.527
+							c0-4.169-3.454-7.561-7.7-7.561s-7.7,3.391-7.7,7.561v0.527h2.197V12.056z M31.165,14.785H8.836
+							c-1.009,0-1.831,0.807-1.831,1.798v22.124c0,0.991,0.822,1.798,1.831,1.798h22.328c1.009,0,1.83-0.807,1.83-1.798V16.583
+							C32.995,15.591,32.173,14.785,31.165,14.785z M31.267,38.786H8.734V16.5h22.533V38.786z"></path>
+                    </g>
+                </g>
+            </g>
+			</svg>
+                        <span class="float_count">0</span>
+                    </a>
+
+                    <div class="cart_holder">
+                        <ul class="cart_details">
+                            <p class="empty">You have no products in your shopping bag.</p></ul>
+                    </div>
+                </div>
+                <a href="#mobile-toggle" class="mobile-toggle style1">
+                    <i class="icon-budicon-0"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>

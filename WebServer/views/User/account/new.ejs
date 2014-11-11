@@ -1,0 +1,9 @@
+<% include ../header %>
+<!--TODO switch based on account-->
+<div class="container">
+    <% _.forEach(accountTypes, function(accountType){%>
+        <a href="/user/account/new/<%= accountType.name %>"><img src="/images/accountTypes/<%= accountType.icon %>" class="accountIcon"> </a>
+    <% }); %>
+
+</div>
+<% include ../../commons/footer %>
