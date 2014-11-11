@@ -13,7 +13,9 @@ class SSCTF_API USuperNetwork : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = "VictoryBPLibrary")
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
 	static FString GetHappyMessage();
-	
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+		static void Register();
 };
