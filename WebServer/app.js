@@ -55,5 +55,90 @@ process.chdir(__dirname);
 
 
   // Start server
-  sails.lift(rc('sails'));
+  sails.lift(rc('sails'), function(){
+      sails.webSocketServer = require('ws').Server;
+      sails.wss = new sails.webSocketServer({port: 1338});
+      sails.loggedInServers = [];
+      sails.registeredServers = [];
+
+      setInterval(function(){
+          console.log("Logged in servers: "+sails.loggedInServers.length);
+          console.log("Registered servers: "+sails.registeredServers.length);
+      }, 5000)
+
+      function authCheck(ws){
+          if(!ws.loggedIn) throw "Not logged in";
+      }
+      function login(ws){
+          if (sails.loggedInServers.indexOf(ws) < 0) {
+              // TODO: connect with user model.
+              ws.loggedIn = true;
+              sails.loggedInServers.push(ws);
+          }
+      }
+      function logout(ws){
+          delete ws.loggedIn;
+          sails.loggedInServers.splice(sails.loggedInServers.indexOf(ws), 1);
+      }
+      function register(ws){
+          if (sails.registeredServers.indexOf(ws) < 0) {
+              ws.registered = true;
+              sails.registeredServers.push(ws);
+          }
+      }
+      function unregister(ws){
+          delete ws.registered;
+          sails.registeredServers = sails.registeredServers.splice(sails.registeredServers.indexOf(ws), 1);
+      }
+
+
+
+      sails.wss.on('connection', function(ws) {
+          ws.on('message', function(message) {
+              console.log('received: %s', message);
+              message = JSON.parse(message);
+              try {
+                  switch (message.action) {
+                      case "login":
+                          login(ws);
+                          ws.send('{"status":"ok"}');
+                          break;
+                      case "logout":
+                          authCheck(ws);
+                          logout(ws);
+                          ws.send('{"status":"ok"}');
+                          break;
+                      // Waiting for players!
+                      case "register":
+                          authCheck(ws);
+                          register(ws);
+                          ws.send('{"status":"ok"}');
+                          break;
+                      case "unregister":
+                          authCheck(ws);
+                          unregister(ws);
+                          ws.send('{"status":"ok"}');
+                          break;
+                      case "list":
+                          console.log("==Logged In Servers==")
+                          console.log(sails.loggedInServers)
+
+                          console.log("==Registered In Servers==")
+                          console.log(sails.registeredServers)
+                          break;
+                  }
+              } catch(e){
+                  console.log("Error: "+e)
+              }
+          });
+          ws.on('close', function() {
+              try {
+                  unregister(ws)
+                  logout(ws)
+              } catch(e) {
+                  console.log("Error: "+e)
+              }
+          });
+      });
+  });
 })();

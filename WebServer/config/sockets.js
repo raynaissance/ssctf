@@ -22,6 +22,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
   onConnect: function(session, socket) {
+      console.log("connected", socket)
 
     // By default, do nothing.
 
@@ -37,7 +38,8 @@ module.exports.sockets = {
   onDisconnect: function(session, socket) {
 
     // By default: do nothing.
-  },
+
+  }
 
 
   /***************************************************************************
@@ -50,10 +52,10 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
   // transports: [
-  //   'websocket',
-  //   'htmlfile',
+  //   'websocket'
+  //    'htmlfile',
   //   'xhr-polling',
-  //   'jsonp-polling'
+  //    'jsonp-polling'
   // ],
 
   /***************************************************************************
