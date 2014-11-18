@@ -100,6 +100,7 @@ process.chdir(__dirname);
               try {
                   switch (message.action) {
                       case "login":
+                          // TODO add login param like name
                           login(ws);
                           ws.send('{"status":"ok"}');
                           break;
@@ -110,6 +111,7 @@ process.chdir(__dirname);
                           break;
                       // Waiting for players!
                       case "register":
+                          // TODO add map param
                           authCheck(ws);
                           register(ws);
                           ws.send('{"status":"ok"}');
@@ -120,6 +122,10 @@ process.chdir(__dirname);
                           ws.send('{"status":"ok"}');
                           break;
                       case "list":
+                          // Ip address is at ws._socket.remoteAddress & remotePort or
+                          // if router through nginx, use
+                          // socket.upgradeReq.headers['x-forwarded-for'] || socket.upgradeReq.connection.remoteAddress
+                          // could also use ws._socket.address()
                           console.log("==Logged In Servers==")
                           console.log(sails.loggedInServers)
 
