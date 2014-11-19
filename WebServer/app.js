@@ -23,128 +23,195 @@
 process.chdir(__dirname);
 
 // Ensure a "sails" can be located:
-(function() {
-  var sails;
-  try {
-    sails = require('sails');
-  } catch (e) {
-    console.error('To run an app using `node app.js`, you usually need to have a version of `sails` installed in the same directory as your app.');
-    console.error('To do that, run `npm install sails`');
-    console.error('');
-    console.error('Alternatively, if you have sails installed globally (i.e. you did `npm install -g sails`), you can use `sails lift`.');
-    console.error('When you run `sails lift`, your app will still use a local `./node_modules/sails` dependency if it exists,');
-    console.error('but if it doesn\'t, the app will run with the global sails instead!');
-    return;
-  }
-
-  // Try to get `rc` dependency
-  var rc;
-  try {
-    rc = require('rc');
-  } catch (e0) {
+(function () {
+    var sails;
     try {
-      rc = require('sails/node_modules/rc');
-    } catch (e1) {
-      console.error('Could not find dependency: `rc`.');
-      console.error('Your `.sailsrc` file(s) will be ignored.');
-      console.error('To resolve this, run:');
-      console.error('npm install rc --save');
-      rc = function () { return {}; };
+        sails = require('sails');
+    } catch (e) {
+        console.error('To run an app using `node app.js`, you usually need to have a version of `sails` installed in the same directory as your app.');
+        console.error('To do that, run `npm install sails`');
+        console.error('');
+        console.error('Alternatively, if you have sails installed globally (i.e. you did `npm install -g sails`), you can use `sails lift`.');
+        console.error('When you run `sails lift`, your app will still use a local `./node_modules/sails` dependency if it exists,');
+        console.error('but if it doesn\'t, the app will run with the global sails instead!');
+        return;
     }
-  }
+
+    // Try to get `rc` dependency
+    var rc;
+    try {
+        rc = require('rc');
+    } catch (e0) {
+        try {
+            rc = require('sails/node_modules/rc');
+        } catch (e1) {
+            console.error('Could not find dependency: `rc`.');
+            console.error('Your `.sailsrc` file(s) will be ignored.');
+            console.error('To resolve this, run:');
+            console.error('npm install rc --save');
+            rc = function () {
+                return {};
+            };
+        }
+    }
 
 
-  // Start server
-  sails.lift(rc('sails'), function(){
-      sails.webSocketServer = require('ws').Server;
-      sails.wss = new sails.webSocketServer({port: 1338});
-      sails.loggedInServers = [];
-      sails.registeredServers = [];
+    // Start server
+    sails.lift(rc('sails'), function () {
+        sails.webSocketServer = require('ws').Server;
+        sails.wss = new sails.webSocketServer({port: 1338});
+        sails.loggedInServers = [];
+        sails.registeredServers = [];
 
-      setInterval(function(){
-          console.log("Logged in servers: "+sails.loggedInServers.length);
-          console.log("Registered servers: "+sails.registeredServers.length);
-      }, 5000)
+        setInterval(function () {
+            console.log("Logged in servers: " + sails.loggedInServers.length);
+            console.log("Registered servers: " + sails.registeredServers.length);
+        }, 5000)
 
-      function authCheck(ws){
-          if(!ws.loggedIn) throw "Not logged in";
-      }
-      function login(ws){
-          if (sails.loggedInServers.indexOf(ws) < 0) {
-              // TODO: connect with user model.
-              ws.loggedIn = true;
-              sails.loggedInServers.push(ws);
-          }
-      }
-      function logout(ws){
-          delete ws.loggedIn;
-          sails.loggedInServers.splice(sails.loggedInServers.indexOf(ws), 1);
-      }
-      function register(ws){
-          if (sails.registeredServers.indexOf(ws) < 0) {
-              ws.registered = true;
-              sails.registeredServers.push(ws);
-          }
-      }
-      function unregister(ws){
-          delete ws.registered;
-          sails.registeredServers = sails.registeredServers.splice(sails.registeredServers.indexOf(ws), 1);
-      }
+        function authCheckServer(ws) {
+            if (!ws.loggedInAsServer) throw "Not logged in";
+        }
+
+        var bcrypt = require('bcrypt');
+
+        function login(ws, userObj) {
+            if (sails.loggedInServers.indexOf(ws) < 0) {
+                // TODO: connect with user model.
+                User.findOneByEmail(userObj.email, function foundUser(err, user) {
+                    bcrypt.compare(userObj.password, user.passwordHash, function (err, valid) {
+                        if (err) {
+                            ws.send('{"status":"error","action":"login"}');
+                            throw "Invalid login credentials";
+                        }
+                        console.log("Login success")
+                        ws.loggedIn = true;
+
+                        if (user.type == User.UserType.gameServer) {
+                            ws.loggedInAsServer = true;
+                            ws.User=user;
+                            sails.loggedInServers.push(ws);
+                        }
+                    });
+                });
+            }
+        }
+
+        function logout(ws) {
+            try {
+                delete ws.loggedInAsServer;
+                sails.loggedInServers.splice(sails.loggedInServers.indexOf(ws), 1);
+            } catch (e) {
+                ws.send('{"status":"error","action":"logout"}');
+                throw "Unable to logout";
+            }
+        }
+
+        var socketId = 0;
+
+        function register(ws, message) {
+            if (sails.registeredServers.indexOf(ws) < 0) {
+                ws.registered = true;
+                ws.socketId = socketId++;
+                ws.port = message.port;
+                ws.map = message.map;
+                ws.connectedPlayers = message.connectedPlayers;
+                sails.registeredServers[ws.socketId] = ws;
+            } else {
+                ws.send('{"status":"error","action":"register"}');
+                throw "Error registering";
+            }
+        }
+
+        function unregister(ws) {
+            try {
+                delete ws.registered;
+                delete sails.registeredServers[ws.socketId];
+            } catch (e) {
+                ws.send('{"status":"error","action":"unregister"}');
+                throw "Error unregistering";
+            }
+        }
+
+        function updateConnectedPlayers(ws) {
+            if(ws.registered){
+                ws.connectedPlayers = ws.connectedPlayers;
+            } else {
+                ws.send('{"status":"error","action":"updateConnectedPlayers"}');
+                throw "Error updating players";
+            }
+        }
 
 
+        sails.wss.on('connection', function (ws) {
+            ws.on('message', function (message) {
+                console.log('received: %s', message);
+                message = JSON.parse(message);
+                try {
+                    switch (message.action) {
+                        case "login":
+                            // TODO add login param like name
+                            var userObj = {email: message.email, password: message.password}
+                            login(ws, userObj);
+                            ws.send('{"status":"ok,"action":"login"}');
+                            break;
+                        case "logout":
+                            authCheckServer(ws);
+                            logout(ws);
+                            ws.send('{"status":"ok","action":"logout"}');
+                            break;
+                        // Waiting for players!
+                        case "register":
+                            // TODO add map param
+                            authCheckServer(ws);
+                            register(ws, message);
+                            ws.send('{"status":"ok","action":"register"}');
+                            break;
+                        case "unregister":
+                            authCheckServer(ws);
+                            unregister(ws);
+                            ws.send('{"status":"ok","action":"unregister"}');
+                            break;
+                        case "list":
+                            // Ip address is at ws._socket.remoteAddress & remotePort or
+                            // if router through nginx, use
+                            // socket.upgradeReq.headers['x-forwarded-for'] || socket.upgradeReq.connection.remoteAddress
+                            // could also use ws._socket.address()
+                            console.log("==Logged In Servers==")
+                            console.log(sails.loggedInServers)
 
-      sails.wss.on('connection', function(ws) {
-          ws.on('message', function(message) {
-              console.log('received: %s', message);
-              message = JSON.parse(message);
-              try {
-                  switch (message.action) {
-                      case "login":
-                          // TODO add login param like name
-                          login(ws);
-                          ws.send('{"status":"ok"}');
-                          break;
-                      case "logout":
-                          authCheck(ws);
-                          logout(ws);
-                          ws.send('{"status":"ok"}');
-                          break;
-                      // Waiting for players!
-                      case "register":
-                          // TODO add map param
-                          authCheck(ws);
-                          register(ws);
-                          ws.send('{"status":"ok"}');
-                          break;
-                      case "unregister":
-                          authCheck(ws);
-                          unregister(ws);
-                          ws.send('{"status":"ok"}');
-                          break;
-                      case "list":
-                          // Ip address is at ws._socket.remoteAddress & remotePort or
-                          // if router through nginx, use
-                          // socket.upgradeReq.headers['x-forwarded-for'] || socket.upgradeReq.connection.remoteAddress
-                          // could also use ws._socket.address()
-                          console.log("==Logged In Servers==")
-                          console.log(sails.loggedInServers)
-
-                          console.log("==Registered In Servers==")
-                          console.log(sails.registeredServers)
-                          break;
-                  }
-              } catch(e){
-                  console.log("Error: "+e)
-              }
-          });
-          ws.on('close', function() {
-              try {
-                  unregister(ws)
-                  logout(ws)
-              } catch(e) {
-                  console.log("Error: "+e)
-              }
-          });
-      });
-  });
+                            console.log("==Registered In Servers==")
+                            console.log(sails.registeredServers)
+                            var servers = []
+                            for(var x in sails.registeredServers){
+                                servers.push({
+                                    name:sails.registeredServers[x].User.name,
+                                    ip:sails.registeredServers[x]._socket.remoteAddress,
+                                    port:sails.registeredServers[x].port,
+                                    map:sails.registeredServers[x].map,
+                                    connectedPlayers:sails.registeredServers[x].connectedPlayers,
+                                    id:sails.registeredServers[x].socketId
+                                });
+                            }
+                            ws.send('{"status":"ok","servers":'+JSON.stringify(servers)+'}');
+                            break;
+                        case "updateConnectedPlayers":
+                            authCheckServer(ws);
+                            updateConnectedPlayers(ws);
+                            ws.send('{"status":"ok","action":"updateConnectedPlayers"}');
+                            break;
+                    }
+                } catch (e) {
+                    console.log("Error: " + e)
+                }
+            });
+            ws.on('close', function () {
+                try {
+                    unregister(ws)
+                    logout(ws)
+                } catch (e) {
+                    console.log("Error: " + e)
+                }
+            });
+        });
+    });
 })();
