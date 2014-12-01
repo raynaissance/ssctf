@@ -1,9 +1,10 @@
 
-
-#pragma once
+// #pragma once
+#include "ssctf.h"
 
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "SuperNetwork.generated.h"
+
 
 /**
  * 
@@ -17,5 +18,20 @@ class SSCTF_API USuperNetwork : public UBlueprintFunctionLibrary
 	static void Connect();
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void Register();
+	static void Register(FString map, FString port);
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+	static void Login(FString  email, FString password);
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+	static void Logout();
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+	static void UnRegister();
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+	static void UpdateConnectedPlayers(FString connectedPlayers);
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+	static void List();
 };

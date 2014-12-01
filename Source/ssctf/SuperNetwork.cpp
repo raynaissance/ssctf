@@ -8,9 +8,17 @@
 #include "AllowWindowsPlatformTypes.h"
 #include <thread>
 #include "HideWindowsPlatformTypes.h"
+#include "Array.h"
+#include "UnrealString.h"
 
 using namespace std;
 using easywsclient::WebSocket;
+
+// conversion method
+string getString(FString str){
+	wstring em1 = wstring(*str);
+	return string(em1.begin(), em1.end());
+}
 
 void handle_message(const std::string & message) {
 	cout << "received " << message.c_str() << endl;
@@ -50,13 +58,11 @@ USuperNetwork::USuperNetwork(const class FPostConstructInitializeProperties& PCI
 
 void USuperNetwork::Connect()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to connect"));
 	cout << "Start" << endl;
 
 	thread workerThread(workerFunction);
 	cout << "Waiting for thread" << endl;
-
-	for (int i = 0; i < 100; i++)
-		messageQueue.push_back("p" + to_string(i));
 
 	workerThread.detach();
 
@@ -65,14 +71,44 @@ void USuperNetwork::Connect()
 
 
 
+void USuperNetwork::Login(FString email, FString password){
+	//	gameserver@superspeed.edu
+	//  123
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to login"));
+	string strEmail = getString(email);
+	string strPassword = getString(password);
+	cout << "request to login as " << strEmail;
 
+	messageQueue.push_back("{\"action\":\"login\",\"email\":\"" + strEmail + "\",\"password\" : \"" + strPassword + "\"}");
+}
 
 //Register
-void USuperNetwork::Register()
+void USuperNetwork::Register(FString map, FString port)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to register"));
+	string strMap = getString(map);
+	string strPort = getString(port);
+	messageQueue.push_back("{\"action\":\"register\",\"map\":\"" + strMap + "\",\"port\":\"" + strPort + "\",\"connectedPlayers\":\"0\"}");
+}
 
+void USuperNetwork::Logout(){
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to logout"));
+	messageQueue.push_back("{\"action\":\"logout\"}");
+}
 
+void USuperNetwork::UnRegister(){
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to unregister"));
+	messageQueue.push_back("{\"action\":\"unregister\"}");
+}
 
+void USuperNetwork::UpdateConnectedPlayers(FString connectedPlayers)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to connectedPlayers"));
+	string strConnectedPlayers = getString(connectedPlayers);
+	messageQueue.push_back("{\"action\":\"updateConnectedPlayers\",\"connectedPlayers\":\"" + strConnectedPlayers + "\"}");
+}
 
+void USuperNetwork::List(){
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to list"));
+	messageQueue.push_back("{\"action\":\"list\"}");
 }
