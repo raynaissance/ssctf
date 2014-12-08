@@ -24,6 +24,10 @@ process.chdir(__dirname);
 
 // Ensure a "sails" can be located:
 (function () {
+	process.on('uncaughtException', function(err) {
+	  console.log('Caught exception: ' + err);
+	});
+
     var sails;
     try {
         sails = require('sails');

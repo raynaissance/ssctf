@@ -80,6 +80,7 @@ USuperNetwork::USuperNetwork(const class FPostConstructInitializeProperties& PCI
 int flag = 0;
 void USuperNetwork::dispatch(AGameMode* gameMode, APlayerController* controller)
 {
+	if (controller == NULL) return;
 	if (!flag) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("dispatch method called"));
 		flag = 1;
@@ -141,6 +142,7 @@ void USuperNetwork::dispatch(AGameMode* gameMode, APlayerController* controller)
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("list success"));
 					// get first?
 					FJsonValueArray servers = JsonParsed->GetArrayField("servers");
+					
 					TSharedPtr<FJsonObject> top = servers.AsArray().Top()->AsObject();
 					//TSharedPtr<FJsonObject> top = servers.AsArray().Top()->AsObject();
 					//FJsonObject top = JsonParsed->GetArrayField("servers").Top()->AsObject();
@@ -189,7 +191,7 @@ void USuperNetwork::Login(FString email, FString password){
 
 	//messageQueue.push_back("{\"action\":\"login\",\"email\":\"" + strEmail + "\",\"password\" : \"" + strPassword + "\"}");
 	
-	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"login\",\"email\":\"test@test.com\",\"password\" : \"123\"}")));
+	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"login\",\"email\":\""+strEmail+"\",\"password\" : \""+strPassword+"\"}")));
 	lock = 0;
 }
 

@@ -1,0 +1,50 @@
+{
+  "data": {
+    "user": [
+      {
+        "name": "gameServer@superspeed.edu",
+        "email": "gameServer@superspeed.edu",
+        "type": 2,
+        "passwordHash": "$2a$10$xjAEPfzUSDkgn3gEySDUmuO7My9cdL4vHmV1YlzmS2IPzOsZfMcsu",
+        "id": 2,
+        "createdAt": "2014-12-08T00:59:43.164Z",
+        "updatedAt": "2014-12-08T00:59:43.164Z"
+      }
+    ]
+  },
+  "schema": {
+    "user": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "unique": true
+      },
+      "type": {
+        "type": "integer",
+        "defaultsTo": 5
+      },
+      "passwordHash": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
+    }
+  },
+  "counters": {
+    "user": {
+      "id": 2
+    }
+  }
+}
