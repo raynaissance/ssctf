@@ -152,7 +152,7 @@ process.chdir(__dirname);
                             // TODO add login param like name
                             var userObj = {email: message.email, password: message.password}
                             login(ws, userObj);
-                            ws.send('{"status":"ok,"action":"login"}');
+                            ws.send('{"status":"ok","action":"login"}');
                             break;
                         case "logout":
                             authCheckServer(ws);
@@ -192,7 +192,7 @@ process.chdir(__dirname);
                                     id:sails.registeredServers[x].socketId
                                 });
                             }
-                            ws.send('{"status":"ok","servers":'+JSON.stringify(servers)+'}');
+                            ws.send('{"status":"ok","servers":'+JSON.stringify(servers)+',"action":"list"}');
                             break;
                         case "updateConnectedPlayers":
                             authCheckServer(ws);

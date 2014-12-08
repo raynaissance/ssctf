@@ -7,7 +7,7 @@
 
 
 /**
- * 
+ *
  */
 UCLASS()
 class SSCTF_API USuperNetwork : public UBlueprintFunctionLibrary
@@ -15,23 +15,26 @@ class SSCTF_API USuperNetwork : public UBlueprintFunctionLibrary
 	GENERATED_UCLASS_BODY()
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void Connect();
+		static void Connect();
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void Register(FString map, FString port);
+		static void Register(FString map, FString port);
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void Login(FString  email, FString password);
+		static void Login(FString  email, FString password);
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void Logout();
+		static void Logout();
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void UnRegister();
+		static void UnRegister();
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void UpdateConnectedPlayers(FString connectedPlayers);
+		static void UpdateConnectedPlayers(FString connectedPlayers);
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-	static void List();
+		static void List();
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+		static void dispatch(AGameMode* gameMode, APlayerController* controller);
 };
