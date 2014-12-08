@@ -37,37 +37,44 @@ int lock = 0;
 
 void workerFunction(){
 	cout << "Worker running" << endl;
-
-	WebSocket::pointer ws = WebSocket::from_url("ws://localhost:1338");
-	//assert(ws);
-	cout << "web socket opened";
-	while (ws->getReadyState() != WebSocket::CLOSED) {
-		while (lock != 0);
-		lock = 1;
-
-		if (!messageQueue.empty()){
-			if (messageQueue.size() > 100){
-				deque<shared_ptr<string>> *tmp = new deque < shared_ptr<string> > ;
-				messageQueue.swap(*tmp);
-			}
-			shared_ptr<string> message = messageQueue.front();
-			if (message == NULL){
-				messageQueue.clear();
-			}
-			else {
-				cout << "sending " << message << endl;
-				ws->send(*message);
-				ws->poll();
-				ws->dispatch(handle_message);
-				messageQueue.pop_front();
-			}
+	int i = 0;
+	while (i++<5){
+		WebSocket::pointer ws = WebSocket::from_url("ws://localhost:1338");
+		if (ws == NULL){
+			std::chrono::milliseconds dura(1000);
+			std::this_thread::sleep_for(dura);
+			continue;
 		}
-		lock = 0; 
-		std::chrono::milliseconds dura(200);
-		std::this_thread::sleep_for(dura);
-	}
-	delete ws;
+		cout << "web socket opened";
+		while (ws->getReadyState() != WebSocket::CLOSED) {
+			while (lock != 0);
+			lock = 1;
 
+			if (!messageQueue.empty()){
+				/*
+				if (messageQueue.size() > 100){
+					deque<shared_ptr<string>> *tmp = new deque < shared_ptr<string> > ;
+					messageQueue.swap(*tmp);
+				}
+				*/
+				shared_ptr<string> message = messageQueue.front();
+				if (message == NULL){
+					messageQueue.clear();
+				}
+				else {
+					cout << "sending " << message << endl;
+					ws->send(*message);
+					ws->poll();
+					ws->dispatch(handle_message);
+					messageQueue.pop_front();
+				}
+			}
+			lock = 0; 
+			std::chrono::milliseconds dura(200);
+			std::this_thread::sleep_for(dura);
+		}
+		delete ws;
+	}
 	cout << "Worker done" << endl;
 }
 
@@ -140,17 +147,18 @@ void USuperNetwork::dispatch(AGameMode* gameMode, APlayerController* controller)
 			else if (action == "list"){
 				if (status != "error") {
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("list success"));
+					controller->ConsoleCommand(TEXT("ke * clearList"));
 					// get first?
 					FJsonValueArray servers = JsonParsed->GetArrayField("servers");
 					
-					TSharedPtr<FJsonObject> top = servers.AsArray().Top()->AsObject();
-					//TSharedPtr<FJsonObject> top = servers.AsArray().Top()->AsObject();
-					//FJsonObject top = JsonParsed->GetArrayField("servers").Top()->AsObject();
+					
+					for (int i = 0; i < servers.AsArray().Num(); i++){
+						TSharedPtr<FJsonObject> top = servers.AsArray()[i].Get()->AsObject();
+						//FJsonObject top = JsonParsed->GetArrayField("servers").Top()->AsObject();
 
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, (*top).GetStringField("name"));
-
-
-					controller->ConsoleCommand(TEXT("ke * onListSuccess \"SERVERIP\""));
+						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, (*top).GetStringField("name"));
+						controller->ConsoleCommand(TEXT("ke * onListSuccess \"" + (*top).GetStringField("ip") + "\""));
+					}
 				}
 				else {
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("list fail"));
