@@ -129,7 +129,7 @@ process.chdir(__dirname);
         function unregister(ws) {
             try {
                 delete ws.registered;
-                delete sails.registeredServers[ws.socketId];
+		sails.registeredServers.splice(sails.registeredServers.indexOf(ws), 1);
             } catch (e) {
                 ws.send('{"status":"error","action":"unregister"}');
                 throw "Error unregistering";

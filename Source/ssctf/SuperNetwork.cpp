@@ -50,7 +50,7 @@ void workerFunction(){
 			while (lock != 0);
 			lock = 1;
 
-			if (!messageQueue.empty()){
+			while (!messageQueue.empty()){
 				/*
 				if (messageQueue.size() > 100){
 					deque<shared_ptr<string>> *tmp = new deque < shared_ptr<string> > ;
@@ -64,8 +64,12 @@ void workerFunction(){
 				else {
 					cout << "sending " << message << endl;
 					ws->send(*message);
-					ws->poll();
-					ws->dispatch(handle_message);
+					for (int k = 0; k < 5;k++){
+						ws->poll();
+						ws->dispatch(handle_message);
+						std::chrono::milliseconds dura(100);
+						std::this_thread::sleep_for(dura);
+					}
 					messageQueue.pop_front();
 				}
 			}
