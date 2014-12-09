@@ -39,7 +39,7 @@ void workerFunction(){
 	cout << "Worker running" << endl;
 	int i = 0;
 	while (i++<5){
-		WebSocket::pointer ws = WebSocket::from_url("ws://localhost:1338");
+		WebSocket::pointer ws = WebSocket::from_url("ws://68.181.96.43:1338");
 		if (ws == NULL){
 			std::chrono::milliseconds dura(1000);
 			std::this_thread::sleep_for(dura);
@@ -161,7 +161,7 @@ void USuperNetwork::dispatch(AGameMode* gameMode, APlayerController* controller)
 						//FJsonObject top = JsonParsed->GetArrayField("servers").Top()->AsObject();
 
 						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, (*top).GetStringField("name"));
-						controller->ConsoleCommand(TEXT("ke * onListSuccess \"" + (*top).GetStringField("ip") + "\""));
+						controller->ConsoleCommand(TEXT("ke * onListSuccess " + (*top).GetStringField("ip") + ""));
 					}
 				}
 				else {
