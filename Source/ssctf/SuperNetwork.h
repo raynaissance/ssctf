@@ -15,7 +15,7 @@ class SSCTF_API USuperNetwork : public UBlueprintFunctionLibrary
 	GENERATED_UCLASS_BODY()
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
-		static void Connect();
+	static void Connect();
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
 		static void Register(FString map, FString port);
@@ -37,4 +37,7 @@ class SSCTF_API USuperNetwork : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
 		static void dispatch(AGameMode* gameMode, APlayerController* controller);
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+		static void Analytics(FString  freezeShootCount, FString freezeOpponentCount, FString superSpeedCount, FString unfreezeTeammateCount);
 };

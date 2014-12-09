@@ -237,3 +237,7 @@ void USuperNetwork::List(){
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to list"));
 	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"list\"}")));
 }
+
+void USuperNetwork::Analytics(FString  freezeShootCount, FString freezeOpponentCount, FString superSpeedCount, FString unfreezeTeammateCount) {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("requesting analytics"));
+}
