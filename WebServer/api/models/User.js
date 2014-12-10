@@ -32,6 +32,22 @@ module.exports = {
     passwordHash: {
         type: "string",
         required: true
+    },
+    freezeShootCount: {
+      type: "integer",
+      "defaultsTo": 0
+    },
+    freezeOpponentCount: {
+      type: "integer",
+      "defaultsTo": 0
+    },
+    superSpeedCount: {
+      type: "integer",
+      "defaultsTo": 0
+    },
+    unfreezeTeammateCount: {
+      type: "integer",
+      "defaultsTo": 0
     }
   },
     beforeCreate: function (values, next) {

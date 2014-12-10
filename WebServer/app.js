@@ -99,6 +99,20 @@ process.chdir(__dirname);
                 });
             }
         }
+		
+		function analytics(ws, gameAnalytics) {
+			// TODO change to email!
+			User.findOneByEmail(ws.User.email, function foundUser(err, user) {
+				if(err) {console.log("Error receiving user data "+err);return;}
+				
+				user.freezeShootCount = user.freezeShootCount + gameAnalytics.freezeShootCount;
+				user.freezeOpponentCount = user.freezeOpponentCount + gameAnalytics.freezeOpponentCount;
+				user.superSpeedCount = user.superSpeedCount + gameAnalytics.superSpeedCount;
+				user.unfreezeTeammateCount = user.unfreezeTeammateCount + gameAnalytics.unfreezeTeammateCount;
+				user.save();
+
+			});
+		}
 
         function logout(ws) {
             try {
@@ -203,6 +217,11 @@ process.chdir(__dirname);
                             updateConnectedPlayers(ws);
                             ws.send('{"status":"ok","action":"updateConnectedPlayers"}');
                             break;
+						case "analytics":
+							var gameAnalytics = {freezeShootCount: message.freezeShootCount, freezeOpponentCount: message.freezeOpponentCount, superSpeedCount: message.superSpeedCount, unfreezeTeammateCount: message.unfreezeTeammateCount};
+							console.log('game analytics: %s', gameAnalytics);
+							analytics(ws, gameAnalytics);
+							break;
                     }
                 } catch (e) {
                     console.log("Error: " + e)
