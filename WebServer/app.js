@@ -99,6 +99,10 @@ process.chdir(__dirname);
                 });
             }
         }
+		
+		function analytics(ws, gameAnalytics) {
+			
+		}
 
         function logout(ws) {
             try {
@@ -203,6 +207,11 @@ process.chdir(__dirname);
                             updateConnectedPlayers(ws);
                             ws.send('{"status":"ok","action":"updateConnectedPlayers"}');
                             break;
+						case "analytics":
+							var gameAnalytics = {freezeShootCount: message.freezeShootCount, freezeOpponentCount: message.freezeOpponentCount, superSpeedCount: message.superSpeedCount, unfreezeTeammateCount: message.unfreezeTeammateCount};
+							console.log('game analytics: %s', gameAnalytics);
+							analytics(ws, gameAnalytics);
+							break;
                     }
                 } catch (e) {
                     console.log("Error: " + e)
