@@ -238,7 +238,7 @@ void USuperNetwork::List(){
 	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"list\"}")));
 }
 
-void USuperNetwork::Analytics(FString  frozenByOpponentCount, FString  freezeOpponentCount, FString freezeShootCount, FString  superSpeedCount, FString unfreezeTeammateCount){
+void USuperNetwork::Analytics(FString email, FString  frozenByOpponentCount, FString  freezeOpponentCount, FString freezeShootCount, FString  superSpeedCount, FString unfreezeTeammateCount){
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("saving game analytics"));
-	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"analytics\",\"frozenByOpponentCount\":\"" + getString(frozenByOpponentCount) + "\",\"freezeOpponentCount\":\"" + getString(freezeOpponentCount) + "\",\"freezeShootCount\" : \"" + getString(freezeShootCount) + "\",\"superSpeedCount\":\"" + getString(superSpeedCount) + "\",\"unfreezeTeammateCount\" : \"" + getString(unfreezeTeammateCount) + "\"}")));
+	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"analytics\",\"email\":\"" + getString(email) + "\",\"frozenByOpponentCount\":\"" + getString(frozenByOpponentCount) + "\",\"freezeOpponentCount\":\"" + getString(freezeOpponentCount) + "\",\"freezeShootCount\" : \"" + getString(freezeShootCount) + "\",\"superSpeedCount\":\"" + getString(superSpeedCount) + "\",\"unfreezeTeammateCount\" : \"" + getString(unfreezeTeammateCount) + "\"}")));
 }
