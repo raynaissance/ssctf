@@ -109,6 +109,7 @@ process.chdir(__dirname);
 				user.freezeOpponentCount = user.freezeOpponentCount + gameAnalytics.freezeOpponentCount;
 				user.superSpeedCount = user.superSpeedCount + gameAnalytics.superSpeedCount;
 				user.unfreezeTeammateCount = user.unfreezeTeammateCount + gameAnalytics.unfreezeTeammateCount;
+				user.frozenByOpponentCount = user.frozenByOpponentCount + gameAnalytics.frozenByOpponentCount;
 				user.save();
 
 			});
@@ -218,8 +219,7 @@ process.chdir(__dirname);
                             ws.send('{"status":"ok","action":"updateConnectedPlayers"}');
                             break;
 						case "analytics":
-							var gameAnalytics = {freezeShootCount: message.freezeShootCount, freezeOpponentCount: message.freezeOpponentCount, superSpeedCount: message.superSpeedCount, unfreezeTeammateCount: message.unfreezeTeammateCount};
-							console.log('game analytics: %s', gameAnalytics);
+							var gameAnalytics = {freezeShootCount: message.freezeShootCount, freezeOpponentCount: message.freezeOpponentCount, superSpeedCount: message.superSpeedCount, unfreezeTeammateCount: message.unfreezeTeammateCount, frozenByOpponentCount: message.frozenByOpponentCount};
 							analytics(ws, gameAnalytics);
 							break;
                     }

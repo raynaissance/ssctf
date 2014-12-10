@@ -3,35 +3,41 @@
     <div class="section s1">
         <div class="inner ">
             <h4>You have logged in as <u><%= user.email %></u></h4>
-            <h5>Here the summary of your statistics -</h5>
+            <h5>Here the summary of your statistics - <%= user.freezeShootCount %></h5>
             <canvas id="chart-area"
                     style="width:800px; height:800px;" />
             <script>
-
+			
                 var doughnutData = [
                     {
-                        value: 300,
+                        value: <%= user.freezeShootCount %>,
                         color:"#F7464A",
                         highlight: "#FF5A5E",
-                        label: "Freezes"
+                        label: "Shots"
                     },
                     {
-                        value: 50,
+                        value: <%= user.freezeOpponentCount %>,
                         color: "#46BFBD",
                         highlight: "#5AD3D1",
-                        label: "BrainFreezes"
+                        label: "Opponents frozen"
                     },
                     {
-                        value: 20,
+                        value: <%= user.superSpeedCount %>,
                         color: "#FDB45C",
                         highlight: "#FFC870",
-                        label: "TeamUnfreezes"
+                        label: "SuperSpeeds"
                     },
                     {
-                        value: 5,
+                        value: <%= user.unfreezeTeammateCount %>,
                         color: "#949FB1",
                         highlight: "#A8B3C5",
-                        label: "FlagsCaptured"
+                        label: "Teammates frozen"
+                    },
+                    {
+                        value: <%= user.frozenByOpponentCount %>,
+                        color: "#949FB1",
+                        highlight: "#A8B3C5",
+                        label: "Times frozen"
                     }
 
                 ];

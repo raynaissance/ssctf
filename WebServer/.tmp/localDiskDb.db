@@ -6,9 +6,14 @@
         "email": "gameServer@superspeed.edu",
         "type": 2,
         "passwordHash": "$2a$10$xjAEPfzUSDkgn3gEySDUmuO7My9cdL4vHmV1YlzmS2IPzOsZfMcsu",
+        "freezeShootCount": 0,
+        "freezeOpponentCount": 0,
+        "superSpeedCount": 0,
+        "unfreezeTeammateCount": 0,
+        "frozenByOpponentCount": 0,
         "id": 2,
         "createdAt": "2014-12-08T00:59:43.164Z",
-        "updatedAt": "2014-12-08T00:59:43.164Z"
+        "updatedAt": "2014-12-10T08:23:19.161Z"
       }
     ]
   },
@@ -27,6 +32,26 @@
       },
       "passwordHash": {
         "type": "string"
+      },
+      "freezeShootCount": {
+        "type": "integer",
+        "defaultsTo": 0
+      },
+      "freezeOpponentCount": {
+        "type": "integer",
+        "defaultsTo": 0
+      },
+      "superSpeedCount": {
+        "type": "integer",
+        "defaultsTo": 0
+      },
+      "unfreezeTeammateCount": {
+        "type": "integer",
+        "defaultsTo": 0
+      },
+      "frozenByOpponentCount": {
+        "type": "integer",
+        "defaultsTo": 0
       },
       "id": {
         "type": "integer",

@@ -48,6 +48,10 @@ module.exports = {
     unfreezeTeammateCount: {
       type: "integer",
       "defaultsTo": 0
+    },
+	frozenByOpponentCount: {
+      type: "integer",
+      "defaultsTo": 0
     }
   },
     beforeCreate: function (values, next) {
