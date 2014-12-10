@@ -37,4 +37,7 @@ class SSCTF_API USuperNetwork : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
 		static void dispatch(AGameMode* gameMode, APlayerController* controller);
+
+	UFUNCTION(BlueprintCallable, Category = "SuperNetwork")
+		static void Analytics(FString  frozenByOpponentCount, FString  freezeOpponentCount, FString freezeShootCount, FString  superSpeedCount, FString unfreezeTeammateCount);
 };
