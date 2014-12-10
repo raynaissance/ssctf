@@ -39,7 +39,7 @@ void workerFunction(){
 	cout << "Worker running" << endl;
 	int i = 0;
 	while (i++<5){
-		WebSocket::pointer ws = WebSocket::from_url("ws://gameserver:1338");
+		WebSocket::pointer ws = WebSocket::from_url("ws://68.181.96.43:1338");
 		if (ws == NULL){
 			std::chrono::milliseconds dura(1000);
 			std::this_thread::sleep_for(dura);
@@ -236,9 +236,4 @@ void USuperNetwork::UpdateConnectedPlayers(FString connectedPlayers)
 void USuperNetwork::List(){
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("request to list"));
 	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"list\"}")));
-}
-
-void USuperNetwork::Analytics(FString  freezeShootCount, FString freezeOpponentCount, FString superSpeedCount, FString unfreezeTeammateCount) {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("requesting analytics"));
-	messageQueue.push_back(shared_ptr<string>(new string("{\"action\":\"analytics\",\"freezeShootCount\":\"" + getString(freezeShootCount) + "\",\"freezeOpponentCount\" : \"" + getString(freezeOpponentCount) + "\",\"superSpeedCount\":\"" + getString(superSpeedCount) + "\",\"unfreezeTeammateCount\" : \"" + getString(unfreezeTeammateCount) + "\"}")));
 }
