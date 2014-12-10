@@ -6,14 +6,42 @@
         "email": "gameServer@superspeed.edu",
         "type": 2,
         "passwordHash": "$2a$10$xjAEPfzUSDkgn3gEySDUmuO7My9cdL4vHmV1YlzmS2IPzOsZfMcsu",
+        "freezeShootCount": 23,
+        "freezeOpponentCount": 11,
+        "superSpeedCount": 10,
+        "unfreezeTeammateCount": 0,
+        "frozenByOpponentCount": 0,
+        "id": 2,
+        "createdAt": "2014-12-08T00:59:43.164Z",
+        "updatedAt": "2014-12-10T11:06:23.558Z"
+      },
+      {
+        "name": "Jon",
+        "email": "jon@usc.edu",
+        "type": 5,
+        "passwordHash": "$2a$10$qW8ATQKW5TI/L57HtfzcJ.rACFnRDCsTa8MxBsn/xI1xWCMhLD.yi",
+        "freezeShootCount": 0,
+        "freezeOpponentCount": 0,
+        "superSpeedCount": 0,
+        "unfreezeTeammateCount": 0,
+        "frozenByOpponentCount": 1,
+        "id": 3,
+        "createdAt": "2014-12-10T11:01:42.001Z",
+        "updatedAt": "2014-12-10T11:06:24.052Z"
+      },
+      {
+        "name": "Ray",
+        "email": "ray@usc.edu",
+        "type": 5,
+        "passwordHash": "$2a$10$DunuOeo4tfOfUnsyatbc1.1muQtLvACs4kDgWgQ9jIKtCPeoY.P7q",
         "freezeShootCount": 0,
         "freezeOpponentCount": 0,
         "superSpeedCount": 0,
         "unfreezeTeammateCount": 0,
         "frozenByOpponentCount": 0,
-        "id": 2,
-        "createdAt": "2014-12-08T00:59:43.164Z",
-        "updatedAt": "2014-12-10T08:23:19.161Z"
+        "id": 4,
+        "createdAt": "2014-12-10T11:02:16.650Z",
+        "updatedAt": "2014-12-10T11:02:16.650Z"
       }
     ]
   },
@@ -69,7 +97,7 @@
   },
   "counters": {
     "user": {
-      "id": 2
+      "id": 4
     }
   }
 }

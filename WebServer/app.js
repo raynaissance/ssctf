@@ -101,8 +101,7 @@ process.chdir(__dirname);
         }
 		
 		function analytics(ws, gameAnalytics) {
-			// TODO change to email!
-			User.findOneByEmail(ws.User.email, function foundUser(err, user) {
+			User.findOneByEmail(gameAnalytics.email, function foundUser(err, user) {
 				if(err) {console.log("Error receiving user data "+err);return;}
 				
 				user.freezeShootCount = user.freezeShootCount + gameAnalytics.freezeShootCount;
@@ -219,7 +218,7 @@ process.chdir(__dirname);
                             ws.send('{"status":"ok","action":"updateConnectedPlayers"}');
                             break;
 						case "analytics":
-							var gameAnalytics = {freezeShootCount: message.freezeShootCount, freezeOpponentCount: message.freezeOpponentCount, superSpeedCount: message.superSpeedCount, unfreezeTeammateCount: message.unfreezeTeammateCount, frozenByOpponentCount: message.frozenByOpponentCount};
+							var gameAnalytics = {email: message.email, freezeShootCount: message.freezeShootCount, freezeOpponentCount: message.freezeOpponentCount, superSpeedCount: message.superSpeedCount, unfreezeTeammateCount: message.unfreezeTeammateCount, frozenByOpponentCount: message.frozenByOpponentCount};
 							analytics(ws, gameAnalytics);
 							break;
                     }
